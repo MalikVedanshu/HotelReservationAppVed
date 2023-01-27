@@ -154,9 +154,10 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
 
 router.get("/mybookings",authenticatelogin, async (req,res) => {
     try {
-        let user = await Usermodel.findById(req.payload.id);
-        if(!user) return res.status(200).json({error: "User not found"})
-
+        let user = await Usermodel.findById(req.payload.id).populate({path: "hotels"});
+        if(!user) return res.status(401).json({error: "User not found"})
+        // user.bookings.forEach(ele => ele.hotelId.populate("bkgId"))
+        console.log(user);
         return res.status(200).json({mybookings: user.bookings})
     }
     catch(error) {

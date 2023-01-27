@@ -16,7 +16,8 @@ const hotelSchema = new mongoose.Schema({
     bookings: [
         {
             userId: {
-                type: mongoose.Schema.Types.ObjectId
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "usrId"
             },
             date: [
                 {

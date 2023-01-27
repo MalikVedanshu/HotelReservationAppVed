@@ -17,7 +17,7 @@ router.post("/register",registerValidation(), errorMiddleware, async (req, res) 
 
         // checking if user already exists
         let existingUser = await Usermodel.findOne({email: email});
-        if(existingUser) return res.status(401).json({msg: "User already exists. Please login or register with different account."})
+        if(existingUser) return res.status(401).json({error: "User already exists. Please login or register with different account."})
 
         // creating database
         let newUser = new Usermodel(req.body);
@@ -85,7 +85,7 @@ router.post("/login", async (req,res) => {
 
 
         let verifiedPassword = await bcrypt.compare(password, user.password);
-        if(!verifiedPassword) return res.status(401).json({msg: "Invalid credentials, check your email or password"});
+        if(!verifiedPassword) return res.status(401).json({error: "Invalid credentials, check your email or password"});
 
         let jwtToken = jwt.sign({id: user._id, email: user.email}, config.get("jwt_secret_key"), {expiresIn: "2h"});
         let encryptedJwtToken = CryptoJS.AES.encrypt(jwtToken, config.get("crypt_secret_key")).toString();
@@ -103,7 +103,7 @@ router.get("/verifyme", authenticatelogin, async (req, res) => {
     try {
         let user = await Usermodel.findById(req.payload.id);
         if(!user) return res.status(401).json({error: "Invalid token. Login again"});
-        console.log(user);
+        
         return res.status(200).json({msg: "You are autherised"})
     }
     catch (error) {

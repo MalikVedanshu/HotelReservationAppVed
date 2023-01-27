@@ -24,6 +24,11 @@ const hotelSchema = new mongoose.Schema({
                 }
             ]
         }
+    ],
+    countryDatesBooked: [
+        {
+            type: String
+        }
     ]
 })
 

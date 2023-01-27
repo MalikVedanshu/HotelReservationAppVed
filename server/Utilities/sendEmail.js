@@ -3,7 +3,7 @@ import config from 'config';
 
 const { host, auth,port  } = config.get("emailkeys");
 
-async function verificationEmail (emailData) {
+async function sendEmail (emailData) {
     try {
         const { toAddress, emailSubject, emailBody } = emailData;
         let transporter = nodemailer.createTransport({
@@ -13,21 +13,26 @@ async function verificationEmail (emailData) {
             auth: {
               user: auth.user, // generated ethereal user
               pass: auth.pass, // generated ethereal password
-            },
+            }
           });
 
           let info = await transporter.sendMail({
-            from: 'Hotel Booking App', // sender address
+            from: '"Hotel Booking App" <dash@malikved.com>', // sender address
             to: toAddress, // list of receivers
-            subject: "Hello" + emailSubject, // Subject line
+            subject: emailSubject, // Subject line
             html: emailBody, // html body
           });
-
+          
           console.log("Message sent. Message ID : ", info.messageId);
     }
     catch(error) {
         console.log(error);
     }
 }
+// sendEmail({
+//   toAddress: "malikvedanshu711@gmail.com", 
+//   emailSubject: "hello ved",
+//   emailBody: `I love you`
+// })
 
-export default verificationEmail;
+export default sendEmail;

@@ -32,13 +32,13 @@ router.post("/register",registerValidation(), errorMiddleware, async (req, res) 
         let jwtToken = jwt.sign({email: email, tkn: newUser.token} , config.get("jwt_secret_key"), {expiresIn: '2h'})
 
         await sendEmail({
-            toAddress: newUser.email,
+            toAddress: email,
             emailSubject: `Account verification. Hotel Bookings.`,
             emailBody: `
-            <center>
+            <div>
                 <h1> Hello ${fullname}, Thank you for registering with us. </h1>
-                <h2>Please <a href="${config.get("myIP")}:5000/hotelapi/user/verify/${jwtToken}"> click here </a> to verify your account </h2>
-            </center>
+                <div>Please <a href="${config.get('myIP')}:5000/hotelapi/user/verify/${jwtToken}"> click here </a> to verify your account </div>
+            </div>
             `
         })
         return res.status(200).json({msg: "Registeration successfull, Please click on the link sent on your registered email."})

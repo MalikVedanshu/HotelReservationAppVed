@@ -80,6 +80,10 @@ router.post("/login", async (req,res) => {
         let {email, password} = req.body;
         let user = await Usermodel.findOne({email: email});
         if(!user) return res.status(401).json({error: "Invalid credentials, check your email or password"});
+
+        if(user.verified !== true) return res.status(401).json({error: "Please veirfy your account first."});
+
+
         let verifiedPassword = await bcrypt.compare(password, user.password);
         if(!verifiedPassword) return res.status(401).json({msg: "Invalid credentials, check your email or password"});
 

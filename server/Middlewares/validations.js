@@ -8,13 +8,30 @@ function registerValidation() {
     ]
 }
 
+
+function bookingvalidation() {
+    return [
+        body("hotelId", "Please select the correct option.").isString().notEmpty(),
+        body("date", "Invalid dates").custom((value) => {
+            if(!Array.isArray(value)) throw Error("Please enter a valid value.")
+            value.forEach(ele => {
+                if(ele*1 != ele ) throw Error("Please enter a valid value.")
+                if(new Date().getTime() > (ele * 1)) {
+                    throw Error("You cannot book for backdated")
+                }
+            })
+        })
+    ]
+}
+
 function errorMiddleware(req, res, next) {
     const error = validationResult(req);
+    console.log(error);
     if (!error.isEmpty()) {
         return res.status(400).json({ error: error.array() })
     }
     next();
 }
 export {
-    registerValidation, errorMiddleware
+    registerValidation,bookingvalidation, errorMiddleware
 }

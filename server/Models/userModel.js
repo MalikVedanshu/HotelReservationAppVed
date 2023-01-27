@@ -26,9 +26,16 @@ const userschema = new mongoose.Schema({
             hotelId: {
                 type: mongoose.Schema.Types.ObjectId
             },
-            date: {
-                type: Array
-            }
+            date: [
+                {
+                    type: String
+                }
+            ]
+        }
+    ],
+    countryDatesBooked: [
+        {
+            type: String
         }
     ]
 })

@@ -10,9 +10,11 @@ const Bookingschema = new mongoose.Schema({
             userId: {
                 type: mongoose.Schema.Types.ObjectId
             },
-            date: {
-                type: Array
-            }
+            date: [
+                {
+                    type: Number
+                }
+            ]
         }
     ]
 

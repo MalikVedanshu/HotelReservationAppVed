@@ -7,16 +7,19 @@ const hotelSchema = new mongoose.Schema({
         unique: true
     },
     bookingPrice: {
-        type: String,
+        type: Number,
         required: true
+    },
+    pictures : {
+        type: Array
     },
     bookings: [
         {
+            userId: {
+                type: mongoose.Schema.Types.ObjectId
+            },
             date: {
                 type: Array
-            },
-            member: {
-                type: String
             }
         }
     ]

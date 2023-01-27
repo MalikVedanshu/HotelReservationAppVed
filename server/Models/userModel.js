@@ -20,7 +20,17 @@ const userschema = new mongoose.Schema({
     },
     token: {
         type: String
-    }
+    },
+    bookings: [
+        {
+            hotelId: {
+                type: mongoose.Schema.Types.ObjectId
+            },
+            date: {
+                type: Array
+            }
+        }
+    ]
 })
 
 const Usermodel = mongoose.model("User", userschema, "hotel-app-members")

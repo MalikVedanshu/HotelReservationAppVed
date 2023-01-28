@@ -25,7 +25,7 @@ export default function Customerlogin() {
         }
         catch(error) {
             console.log(error.response.data);
-            setLoginError(error.response.data.error);
+            (typeof error.response.data.error === "string" ) ? setLoginError(error.response.data.error) : setLoginError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setLoginError(null);
             },2000)

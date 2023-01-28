@@ -42,7 +42,7 @@ router.get("/search", authenticatelogin, async (req,res) => {
         let allHotels = await Hotelmodel.find();
         console.log(allHotels);
 
-        return res.status(200).json({msg: allHotels})
+        return res.status(200).json({hotels: allHotels})
     }
     catch(error) {
         console.log(error);
@@ -97,15 +97,15 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
         let hotelData = await Hotelmodel.findById(mongoose.Types.ObjectId(hotelId));
         if(!hotelData) return res.status(401).json({error: "Hotel not found"});
 
-        let checkin = date[0];
-        let checkout = date[1];
+        // let checkin = date[0];
+        // let checkout = date[1];
 
         let checkinDate = date[0].split("-");
         let checkoutDate = date[1].split("-");
         
 
-        let checkinInNum = new Date(checkinDate[2], checkinDate[1] -1, checkinDate[0]).getTime()
-        let checkoutNum = new Date(checkoutDate[2], checkoutDate[1] -1, checkoutDate[0]).getTime()
+        let checkinInNum = new Date(checkinDate[0], checkinDate[1] -1, checkinDate[2]).getTime()
+        let checkoutNum = new Date(checkoutDate[0], checkoutDate[1] -1, checkoutDate[2]).getTime()
 
         console.log(checkinInNum, checkoutNum);
         if (checkinInNum <= new Date().getTime() ) {
@@ -116,9 +116,13 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
             return res.status(401).json({error: "Invalid range of input selected"})
         }
 
-        // if(hotelData.countryDatesBooked.includes(checkin) || hotelData.countryDatesBooked.includes(checkout)) {
-        //     return res.status(401).json({error: "The hotel is already booked for the dates you want to select."})
-        // }
+        if (checkinInNum > new Date().getTime() + (1000 * 60 * 60 * 24 * 45) ) {
+            return res.status(401).json({error: "You cannot book only before 45 days."})
+        }
+
+        if (checkinInNum > new Date().getTime() + (1000 * 60 * 60 * 24 * 45)) {
+            return res.status(401).json({error: "You cannot book only before 45 days."})
+        }
 
         let myDates = datesGenerator(checkinInNum, checkoutNum);
         
@@ -154,7 +158,7 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
 
 router.get("/mybookings",authenticatelogin, async (req,res) => {
     try {
-        let user = await Usermodel.findById(req.payload.id).populate({path: "hotels"});
+        let user = await Usermodel.findById(req.payload.id);
         if(!user) return res.status(401).json({error: "User not found"})
         // user.bookings.forEach(ele => ele.hotelId.populate("bkgId"))
         console.log(user);

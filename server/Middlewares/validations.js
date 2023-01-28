@@ -4,7 +4,30 @@ function registerValidation() {
     return [
         body("fullname", "Please enter a valid fullname between 3 to 20 characters").isString().isLength({ minLength: 3, maxLength: 20 }),
         body("email", "Please enter a valid email").isEmail().notEmpty(),
-        body("password", "Please enter a strong password").isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 })
+        body("password", "Please enter a strong password").isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }),
+        body("confirmPassword").custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Password did not match');
+            }
+            return true;
+        })
+    ]
+}
+
+function forgetpassAuthentication() {
+    return [
+        body("email", "please enter a valid email").isEmail().notEmpty()
+    ]
+}
+function resetpassValidation() {
+    return [
+        body("password", "Please enter a strong password").isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }),
+        body("confirmPassword").custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error('Password did not match');
+            }
+            return true;
+        })
     ]
 }
 
@@ -22,6 +45,8 @@ function bookingvalidation() {
     ]
 }
 
+
+
 function errorMiddleware(req, res, next) {
     const error = validationResult(req);
     // console.log(error);
@@ -31,5 +56,5 @@ function errorMiddleware(req, res, next) {
     next();
 }
 export {
-    registerValidation,bookingvalidation, errorMiddleware
+    registerValidation, forgetpassAuthentication,resetpassValidation, bookingvalidation, errorMiddleware
 }

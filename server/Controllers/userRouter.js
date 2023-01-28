@@ -163,6 +163,7 @@ router.get("/verifyme", authenticatelogin, async (req, res) => {
     try {
         let user = await Usermodel.findById(req.payload.id);
         if(!user) return res.status(401).json({error: "Invalid token. Login again"});
+        if(user.verified === false) return res.status(401).json({error: "Please veirfy your account first."});
         
         return res.status(200).json({msg: "You are autherised"})
     }

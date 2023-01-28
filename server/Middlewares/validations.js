@@ -31,6 +31,21 @@ function resetpassValidation() {
     ]
 }
 
+function availabilityDateValidator() {
+    return [
+        body("checkin").custom(value => {
+            // 2023-01-11
+            if(value[4] !== "-" && value[7] !== "-") throw new Error('Invalid input');
+            return true;
+        }),
+        body("checkout").custom(value => {
+            // 2023-01-11
+            if(value[4] !== "-" && value[7] !== "-") throw new Error('Invalid input');
+            return true;
+        })
+    ]
+}
+
 
 function bookingvalidation() {
     return [
@@ -38,7 +53,9 @@ function bookingvalidation() {
         body("date", "Invalid dates").custom((value) => {
             if(!Array.isArray(value)) throw Error("Please enter a valid value.")
             if(value.length !== 2) throw Error("Please enter a valid value.")
-            if(value[0].split("-").length !== 3 || value[1].split("-").length !== 3) throw Error("Please enter a valid value.")
+            // if(value[0].split("-").length !== 3 || value[1].split("-").length !== 3) throw Error("Please enter a valid value.")
+            if(value[0][4] !== "-" && value[0][7] !== "-") throw new Error('Invalid input');
+            if(value[1][4] !== "-" && value[1][7] !== "-") throw new Error('Invalid input');
             return true;
             
         })
@@ -56,5 +73,5 @@ function errorMiddleware(req, res, next) {
     next();
 }
 export {
-    registerValidation, forgetpassAuthentication,resetpassValidation, bookingvalidation, errorMiddleware
+    registerValidation, forgetpassAuthentication,availabilityDateValidator, resetpassValidation, bookingvalidation, errorMiddleware
 }

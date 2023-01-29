@@ -24,14 +24,16 @@ const userschema = new mongoose.Schema({
     bookings: [
         {
             hotelId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "bkgId"
+                type: mongoose.Schema.Types.ObjectId
             },
             date: [
                 {
                     type: String
                 }
-            ]
+            ],
+            totalRent: {
+                type: Number
+            }
         }
     ],
     countryDatesBooked: [

@@ -1,7 +1,22 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: white;
+}
 
 .navContainer{
+    width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    
+}
+.hundredHeightContainer{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
 }
 .navElement {
     cursor: pointer;
@@ -10,4 +25,148 @@
     background-color: black;
     color: white;
     border-radius: 7px;
+}
+.singuplogin{
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 80%; 
+    background-image: url("./Files/Pictures/pic2.png");
+    background-repeat: no-repeat;
+    background-blend-mode: lighten;
+    background-position: 50%;
+    border-radius: 7px;
+    background-size: contain;
+    
+
+}
+img {
+    opacity: 1;
+}
+.singuplogin div{
+    min-width: 400px;
+    padding: 5px;
+    margin: 3px;
+    display: grid;
+    grid-template-columns: 30% 60%;
+}
+
+input[type=text] {
+    border-radius: 7px;
+    height: 2rem;
+    font-size: medium;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+input[type=button],input[type=submit] {
+   width: 12em;
+   height: 2em;
+   background-color: rgb(40, 40, 40);
+   color: white;
+   border-radius: 7px;
+   padding: 5px;
+   cursor: pointer;
+}
+
+.singuplogin div input[type=password] {
+    border-radius: 7px;
+    height: 2rem;
+    font-size: medium;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+ }
+label{
+    height: 1rem;
+    font-size: large;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;  
+}
+p{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.mybooking {
+    border: 2px solid rgb(25,25,25);
+    border-radius: 7px;
+    width: fit-content;
+    margin: 4px;
+    padding: 4px 4px;
+}
+.bookingsContainer {
+    display: flex;
+   
+}
+.bookingsContainer div{
+    background-color: rgba(189, 187, 167, 0.72);
+}
+
+.bookingDate{
+    background-color: rgb(25,25,25);
+    color: white;
+    border-radius: 7px;
+    padding: 3px;
+}
+.allHotelContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.allHotelData{
+    
+    border-radius: 7px;
+    width: fit-content;
+    margin: 4px;
+    padding: 4px;
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(159, 159, 146, 0.241);
+}
+.writtenPrice{
+    background-color: rgb(120, 103, 6);
+    color: white;
+    border-radius: 7px;
+    padding: 3px;
+}
+
+input[type=date] {
+    width: 12em;
+    height: 2em;
+    background-color: rgb(40, 40, 40);
+    color: white;
+    border-radius: 7px;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer; 
+}
+.dashboardContainer{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(250,250,250);
+    background-image: url("./Files/Pictures/pic1.png");
+    background-repeat: no-repeat;
+    background-position: 70%;
+    font-family: freedomcustom;
+}
+.hotelDataContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: freedomcustom;
+}
+.dashboardContainer {
+    padding: 10px 10px;
+}
+@font-face {
+    font-family: freedomcustom;
+    src: url("./Files/Fonts/ChrustyRock-ORLA.ttf");
+}
+.hotelName{
+    color: white;
+    background-color: black;
+    border-radius: 7px;
+    padding: 4px;
 }

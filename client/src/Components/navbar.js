@@ -11,11 +11,13 @@ export default function Navbar() {
 
     return (
         <>
+        
             <div className="navContainer">
                 <div className="navElement" onClick={() => navigate("/hotels")}>Hotels</div>
-                <div className="navElement" onClick={() => navigate("/bookings")}>Bookings</div>
+                <div className="navElement" onClick={() => navigate("/dashboard")}>Bookings</div>
                 <div className="navElement" onClick={logout}>Logout</div>
             </div>
+           
         </>
     )
 }

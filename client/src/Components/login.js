@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 export default function Customerlogin() {
@@ -13,7 +13,7 @@ export default function Customerlogin() {
 
     const loginValChange = (eve) => {
         setLoginInputs({
-            ...loginInputs, [eve.target.name] : eve.target.value
+            ...loginInputs, [eve.target.name]: eve.target.value
         })
     }
     const submitLogin = async (eve) => {
@@ -23,27 +23,45 @@ export default function Customerlogin() {
             localStorage.setItem("htoken", res.data.token);
             navigate("/dashboard");
         }
-        catch(error) {
+        catch (error) {
             console.log(error.response.data);
-            (typeof error.response.data.error === "string" ) ? setLoginError(error.response.data.error) : setLoginError(error.response.data.error[0].msg)
+            (typeof error.response.data.error === "string") ? setLoginError(error.response.data.error) : setLoginError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setLoginError(null);
-            },2000)
+            }, 2000)
         }
     }
-    
+
 
     return (
         <>
-            <div>
-                <h2> Login </h2>
-                <div style={{color:"red"}}>{loginError}</div>
-                <label> Email </label>
-                <input type="text" name="email" onChange={loginValChange} placeholder="Enter Email" />
+            <div className="hundredHeightContainer">
 
-                <label> Password </label>
-                <input type="text" name="password" onChange={loginValChange} placeholder="Enter Password" />
-                <input type="submit" onClick={submitLogin} />
+                <div style={{ color: "red" }}>{loginError}</div>
+                <div className="singuplogin">
+                    <h1>Login</h1>
+                    <div>
+                        <div> Email </div>
+                        <input type="text" name="email" onChange={loginValChange} placeholder="Enter Email" />
+                    </div>
+
+                    <div>
+                        <div> Password </div>
+                        <input type="password" name="password" onChange={loginValChange} placeholder="Enter Password" />
+                    </div>
+                    <div>
+                        <div></div>
+                        <input type="submit" onClick={submitLogin} />
+                    </div>
+
+                </div>
+                <center>
+                    <p> New user ? <Link style={{ color: "rgba(19, 184, 221, 0.857)", fontFamily: "Verdana, Geneva, Tahoma, sans-serif" }} to='/register' >Register </Link>  </p>
+                    <p> Forgot Password/Username ?  <Link style={{ color: "rgba(19, 184, 221, 0.857)", fontFamily: "Verdana, Geneva, Tahoma, sans-serif" }} to='/forgetpassword' > Click here </Link> </p>
+                </center>
+
+
+
             </div>
         </>
     )

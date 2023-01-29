@@ -99,8 +99,9 @@ router.post("/search/available", authenticatelogin,availabilityDateValidator(), 
         let checkinMilliseconds = new Date(arrCheckIn[0], arrCheckIn[1] - 1, arrCheckIn[2]).getTime();
         let checkOutMilliseconds = new Date(arrCheckOut[0], arrCheckOut[1] - 1, arrCheckOut[2]).getTime();
 
-        let desiredDates = datesGenerator(checkinMilliseconds, checkOutMilliseconds);
+        let desiredDatesAndDays = datesGenerator(checkinMilliseconds, checkOutMilliseconds);
         // console.log(desiredDates);
+        let desiredDates = desiredDatesAndDays["datesArr"];
 
         let allHotels = await Hotelmodel.find();
         
@@ -145,6 +146,7 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
         
         let hotelData = await Hotelmodel.findById(mongoose.Types.ObjectId(hotelId));
         if(!hotelData) return res.status(401).json({error: "Hotel not found"});
+        let oneDayRent = hotelData.bookingPrice;
 
         // let checkin = date[0];
         // let checkout = date[1];
@@ -175,10 +177,17 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
 
         let myDates = datesGenerator(checkinInNum, checkoutNum);
         
+        let dayzz = myDates["dayz"];
+        console.log(dayzz);
+        let totalRent = dayzz * oneDayRent;
+
+        let bkDates = myDates["datesArr"];
+        console.log(bkDates);
+
         let doesClash = false;
         let clashingDates = "";
 
-        myDates.forEach(ele => {
+        bkDates.forEach(ele => {
             if(hotelData.countryDatesBooked.includes(ele)) {
                 clashingDates = clashingDates + ele + ", ";
                 doesClash = true;
@@ -186,18 +195,19 @@ router.post("/addbooking",authenticatelogin, bookingvalidation(),errorMiddleware
         })
         if(doesClash === true) return res.status(401).json({error: `The hotel is already booked for ${clashingDates}. You can filter the hotel by dates.`})
 
-        myDates.forEach(ele => {
+        bkDates.forEach(ele => {
             if(hotelData.countryDatesBooked.includes(ele)) {
                 return res.status(401).json({msg: "This hotel is already booked for the date/dates you want to book for"});
             }
         })
 
-        console.log(myDates);
-        user.bookings.push({hotelId: hotelId, date: myDates})
+        console.log(bkDates);
+        user.bookings.push({hotelId: hotelId, date: bkDates, totalRent: totalRent})
+        
         await user.save();
 
-        hotelData.bookings.push({userId: user._id, date: myDates})
-        hotelData.countryDatesBooked.push(...myDates)
+        hotelData.bookings.push({userId: user._id, date: bkDates})
+        hotelData.countryDatesBooked.push(...bkDates)
         await hotelData.save();
 
         return res.status(200).json({msg: "Booking is complete."});

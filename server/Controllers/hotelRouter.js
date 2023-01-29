@@ -96,30 +96,34 @@ router.post("/search/available", authenticatelogin,availabilityDateValidator(), 
 
         let arrCheckIn = checkin.split("-");
         let arrCheckOut = checkout.split("-");
-        let checkinMilliseconds = new Date(arrCheckIn[0], arrCheckIn[1], arrCheckIn[2]).getTime();
-        let checkOutMilliseconds = new Date(arrCheckOut[0], arrCheckOut[1], arrCheckOut[2]).getTime();
+        let checkinMilliseconds = new Date(arrCheckIn[0], arrCheckIn[1] - 1, arrCheckIn[2]).getTime();
+        let checkOutMilliseconds = new Date(arrCheckOut[0], arrCheckOut[1] - 1, arrCheckOut[2]).getTime();
 
         let desiredDates = datesGenerator(checkinMilliseconds, checkOutMilliseconds);
+        // console.log(desiredDates);
 
         let allHotels = await Hotelmodel.find();
+        
         let desiredHotels = [];
-
     
-        // allHotels.forEach(ele => {
-        //     if(ele.countryDatesBooked.length > 0) {
-        //         let shallPush = true;
-        //         ele.countryDatesBooked.forEach(elemen => {
-                    
-        //             if(desiredDates.includes(elemen)) {
-        //                 shallPush = false;
-        //             }
-        //         })
-        //         if(shallPush === true) desiredHotels.push(ele);
-        //     }
-        // })
+        for(let i = 0; i < allHotels.length; i++) {
+            let shouldShow = true;
+            if(allHotels[i].countryDatesBooked.length > 0) {
+                for(let j = 0; j < desiredDates.length; j++) {
+                    console.log(desiredDates[j]);
+                    if(allHotels[i].countryDatesBooked.includes(desiredDates[j])) {
+                        shouldShow = false;
+                        j = desiredDates.length;
+                    }
+                }
+            }
+            if(shouldShow === true) {
+                desiredHotels.push(allHotels[i]);
+            }
+        }
 
-        console.log(desiredHotels);
-        return res.status(200).json({msg: "Listed available hotels."})
+        console.log(desiredDates);
+        return res.status(200).json({msg: desiredHotels})
     }
     catch(error) {
         console.log(error);

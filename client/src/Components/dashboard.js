@@ -17,12 +17,10 @@ export default function Dashboard() {
                 navigate("/login")
             }
             let res = await axios.get("/hotelapi/hotels/mybookings", { "headers": { "z-auth-token": token } })
-            console.log(res.data);
             if (res.data.mybookings.length > 0) setUserData(res.data.mybookings);
 
         }
         catch (error) {
-            console.log(error.response.data);
             setBookingsError(error.response.data.error);
             setTimeout(() => {
                 setBookingsError(null);

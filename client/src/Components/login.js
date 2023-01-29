@@ -16,15 +16,13 @@ export default function Customerlogin() {
             ...loginInputs, [eve.target.name]: eve.target.value
         })
     }
-    const submitLogin = async (eve) => {
+    const submitLogin = async () => {
         try {
             let res = await axios.post("/hotelapi/user/login", loginInputs);
-            console.log(res.data);
             localStorage.setItem("htoken", res.data.token);
             navigate("/dashboard");
         }
         catch (error) {
-            console.log(error.response.data);
             (typeof error.response.data.error === "string") ? setLoginError(error.response.data.error) : setLoginError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setLoginError(null);

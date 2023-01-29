@@ -35,7 +35,6 @@ router.post("/manuallyAddHotels", async (req, res) => {
 
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })
@@ -56,12 +55,10 @@ router.get("/search", authenticatelogin, async (req, res) => {
         if (user.verified === false) return res.status(401).json({ error: "Please veirfy your account first." });
 
         let allHotels = await Hotelmodel.find();
-        console.log(allHotels);
 
         return res.status(200).json({ hotels: allHotels })
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })
@@ -89,7 +86,6 @@ router.get("/search/:hId", authenticatelogin, async (req, res) => {
         return res.status(200).json({ msg: theHotel })
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })
@@ -117,7 +113,6 @@ router.get("/search/name/:hname", authenticatelogin, async (req, res) => {
         return res.status(200).json({ msg: theHotel })
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })
@@ -137,22 +132,21 @@ router.post("/search/available", authenticatelogin, availabilityDateValidator(),
 
         let arrCheckIn = checkin.split("-");
         let arrCheckOut = checkout.split("-");
+
         let checkinMilliseconds = new Date(arrCheckIn[0], arrCheckIn[1] - 1, arrCheckIn[2]).getTime();
         let checkOutMilliseconds = new Date(arrCheckOut[0], arrCheckOut[1] - 1, arrCheckOut[2]).getTime();
 
         let desiredDatesAndDays = datesGenerator(checkinMilliseconds, checkOutMilliseconds);
-        // console.log(desiredDates);
         let desiredDates = desiredDatesAndDays["datesArr"];
 
         let allHotels = await Hotelmodel.find();
 
-        let desiredHotels = [];
+        let desiredHotels = []; // filtered result will added to the array
 
         for (let i = 0; i < allHotels.length; i++) {
             let shouldShow = true;
             if (allHotels[i].countryDatesBooked.length > 0) {
                 for (let j = 0; j < desiredDates.length; j++) {
-                    console.log(desiredDates[j]);
                     if (allHotels[i].countryDatesBooked.includes(desiredDates[j])) {
                         shouldShow = false;
                         j = desiredDates.length;
@@ -163,12 +157,9 @@ router.post("/search/available", authenticatelogin, availabilityDateValidator(),
                 desiredHotels.push(allHotels[i]);
             }
         }
-
-        console.log(desiredDates);
         return res.status(200).json({ msg: desiredHotels })
     }
     catch (error) {
-        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })

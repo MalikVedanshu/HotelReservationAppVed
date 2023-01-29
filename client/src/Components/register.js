@@ -23,7 +23,7 @@ export default function Customerregister() {
     const submitRegisteration = async () => {
         try {
             let res = await axios.post("/hotelapi/user/register", registerState)
-            console.log(res.data.msg);
+
             setRegisterInfo(res.data.msg);
             setTimeout(() => {
                 setRegisterInfo(null);
@@ -33,7 +33,6 @@ export default function Customerregister() {
             }, 4000)
         }
         catch (error) {
-            console.log(error.response.data);
 
             (typeof error.response.data.error === "string") ? setRegisterError(error.response.data.error) : setRegisterError(error.response.data.error[0].msg)
             setTimeout(() => {
@@ -47,13 +46,11 @@ export default function Customerregister() {
         <>
             <div className="hundredHeightContainer">
                 <center>
-                <div style={{ color: "red" }}>{registerError}</div>
-                <div style={{ color: "green" }}>{registerInfo}</div>
+                    <div style={{ color: "red" }}>{registerError}</div>
+                    <div style={{ color: "green" }}>{registerInfo}</div>
                 </center>
                 <div className="singuplogin">
                     <h2> Register </h2>
-
-
                     <div>
                         <div>Full-Name</div>
                         <input type="text" name="fullname" onChange={onRegisterPageChange} /><br />

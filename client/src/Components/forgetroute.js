@@ -13,7 +13,6 @@ export default function Forgetroute() {
     const submitEmail = async () => {
         try {
             let res = await axios.post("/hotelapi/user/forgetpassword", { email: forgetEmail })
-            console.log(res.data);
             setForgetPassInfo(res.data.msg);
             setTimeout(() => {
                 setForgetPassInfo(null);
@@ -21,7 +20,6 @@ export default function Forgetroute() {
             }, 3000)
         }
         catch (error) {
-            console.log(error.response.data);
             (typeof error.response.data.error === "string") ? setForgetRouteError(error.response.data.error) : setForgetRouteError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setForgetRouteError(null);

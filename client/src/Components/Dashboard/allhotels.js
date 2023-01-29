@@ -28,11 +28,11 @@ export default function Allhotels() {
         try {
             let token = localStorage.getItem("htoken")
             let res = await axios.get(`/hotelapi/hotels/search/name/${filters.hotelN}`, { headers: { "z-auth-token": token } })
-            console.log(res.data)
+            
             setHotels(res.data.msg);
         }
         catch (error) {
-            console.log(error.response.data);
+            
             (typeof error.response.data.error === "string") ? setHotelPageError(error.response.data.error) : setHotelPageError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setHotelPageError(null);
@@ -45,11 +45,14 @@ export default function Allhotels() {
         try {
             let token = localStorage.getItem("htoken")
             let res = await axios.post(`/hotelapi/hotels/search/available`, { checkin: filters.checkinT, checkout: filters.checkoutT }, { headers: { "z-auth-token": token } })
-            console.log(res.data)
+            
             setHotels(res.data.msg);
         }
         catch (error) {
-            console.log(error)
+            (typeof error.response.data.error === "string") ? setHotelPageError(error.response.data.error) : setHotelPageError(error.response.data.error[0].msg)
+            setTimeout(() => {
+                setHotelPageError(null);
+            }, 2000)
         }
 
     }
@@ -62,11 +65,13 @@ export default function Allhotels() {
         try {
             let token = localStorage.getItem("htoken");
             let res = await axios.get("/hotelapi/hotels/search", { headers: { "z-auth-token": token } });
-            console.log(res.data.hotels);
             if (res.data.hotels.length > 0) setHotels(res.data.hotels)
         }
         catch (error) {
-            console.log(error)
+            (typeof error.response.data.error === "string") ? setHotelPageError(error.response.data.error) : setHotelPageError(error.response.data.error[0].msg)
+            setTimeout(() => {
+                setHotelPageError(null);
+            }, 2000)
         }
     }
     const bookTheHotel = (eve) => {
@@ -91,7 +96,7 @@ export default function Allhotels() {
         let minDate = `${min[0]}-${min[1]}-${min[2]}`
         let maxDate = `${max[0]}-${max[1]}-${max[2]}`
         setStartFromTo([minDate, maxDate]);
-        console.log(startFromTo);
+        
         getHotels();
     }, [])
     /* eslint-enable */

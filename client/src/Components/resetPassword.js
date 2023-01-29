@@ -31,7 +31,6 @@ export default function Resetpassword() {
             }, 3000)
         }
         catch (error) {
-            console.log(error.response.data);
             (typeof error.response.data.error === "string") ? setResetPassError(error.response.data.error) : setResetPassError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setResetPassError(null);

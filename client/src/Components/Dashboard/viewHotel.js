@@ -49,13 +49,13 @@ export default function Viewhotel() {
             else {
                 const hid = location.pathname.split("/viewhotel/")[1]
                 let res = await axios.get(`/hotelapi/hotels/search/${hid}`, { headers: { "z-auth-token": token } })
-                console.log(res.data);
+                
                 setHotelData(res.data.msg);
                 setHistoryModalData(res.data.msg.countryDatesBooked);
             }
         }
         catch (error) {
-            console.log(error.response.data);
+            
             (typeof error.response.data.error === "string") ? setBookingsError(error.response.data.error) : setBookingsError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setBookingsError(null);
@@ -65,15 +65,15 @@ export default function Viewhotel() {
     const bookTheHotel = async () => {
         try {
             let token = localStorage.getItem("htoken");
-            let res = await axios.post("/hotelapi/hotels/addbooking", { hotelId: hotelData._id, date: [bookingsData.checkin, bookingsData.checkout] }, { headers: { "z-auth-token": token } })
-            console.log(res.data)
+            await axios.post("/hotelapi/hotels/addbooking", { hotelId: hotelData._id, date: [bookingsData.checkin, bookingsData.checkout] }, { headers: { "z-auth-token": token } })
+            
             setOpenModal(false);
             setTimeout(() => {
                 setBookingsInfo(null);
             }, 3000)
         }
         catch (error) {
-            console.log(error.response.data);
+            
             (typeof error.response.data.error === "string") ? setBookingsError(error.response.data.error) : setBookingsError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setBookingsError(null);
@@ -97,7 +97,7 @@ export default function Viewhotel() {
                     <div className="hotelDataContainer">
                         <h1 className="hotelName">{hotelData.hotelName.split("_").join(" ")} </h1>
                         <h2>Price : {hotelData.bookingPrice} Rupees </h2>
-                        <img src={require(`../../Files/Pictures/hotelPictures/hotel${Math.round(10 * Math.random())}.jpg`)} alt="ahotel" style={{ width: "auto", height: "400px" }}></img> <br />
+                        <img src={require(`../../Files/Pictures/hotelPictures/hotel${Math.round(9 * Math.random())}.jpg`)} alt="ahotel" style={{ width: "auto", height: "400px" }}></img> <br />
                         <input type="button" value="Book" onClick={() => setOpenModal(true)} /> <br />
                         <input type="button" value="View booking history" onClick={() => setOpenHistoryModal(true)} />
                     </div> : <div></div>

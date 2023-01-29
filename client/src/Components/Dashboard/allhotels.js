@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
-import Modal from 'react-modal';
 import axios from "axios";
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-    },
-};
-
-Modal.setAppElement('#modal_root');
+import { useNavigate } from "react-router-dom";
 
 
 export default function Allhotels() {
-    const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
 
     const [hotels, setHotels] = useState(null);
-    const [checkin, Checkout] = useState([null, null])
+    const [startFromTo, setStartFromTo] = useState(["",""])
+    const [filters, setFilters] = useState({
+        hotelN: "",
+        checkinT: "",
+        checkoutT: ""
+    })
+
+    const changeSearchFilters = (eve) => {
+        setFilters ({
+            ...filters, [eve.target.name]: eve.target.value
+        })
+        
+    }
 
     let dateAfterFourtyFiveD = new Date().getTime() + (1000 * 60 * 60 * 24 * 45)
 
@@ -39,54 +38,59 @@ export default function Allhotels() {
             console.log(error)
         }
     }
+    const bookTheHotel = (eve) => {
+        navigate(`/viewhotel/${eve.target.name}`)
+    }
 
     useEffect(() => {
-        
-        
-        const minMaxDate = {
-            min: [new Date().getFullYear(),
-                new Date().getMonth() + 1,
-                new Date().getDate()],
-            max: [
-                new Date(dateAfterFourtyFiveD).getFullYear(), 
-                new Date(dateAfterFourtyFiveD).getMonth() + 1, 
-                new Date(dateAfterFourtyFiveD).getDate()
-            ]
-        }
-        minMaxDate.min[1] < 10 ? minMaxDate.min[1] = "0" + minMaxDate.min[1] : "" + minMaxDate.min[1]
-        minMaxDate.min[2] < 10 ? minMaxDate.min[2] = "0" + minMaxDate.min[2] : "" + minMaxDate.min[2]
 
-        minMaxDate.max[1] < 10 ? minMaxDate.max[1] = "0" + minMaxDate.max[1] : "" + minMaxDate.max[1]
-        minMaxDate.max[2] < 10 ? minMaxDate.max[2] = "0" + minMaxDate.max[2] : "" + minMaxDate.max[2]
+        const min = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
 
-        console.log(minMaxDate);
+        let maxInMilliseconds = new Date().getTime() + (1000 * 60 * 60 * 24 * 45);
+
+        const max = [new Date(maxInMilliseconds).getFullYear(), new Date(maxInMilliseconds).getMonth() + 1, new Date(maxInMilliseconds).getDate()]
         
+
+        min[1] < 10 ? min[1] = "0" + min[1] : min[1] =  "" + min[1]
+        min[2] < 10 ? min[2] = "0" + min[2] : min[2] =  "" + min[2]
+
+        max[1] < 10 ? max[1] = "0" + max[1] : max[1] =  "" + max[1]
+        max[2] < 10 ? max[2] = "0" + max[2] : max[2] =  "" + max[2]
+
+        let minDate = `${min[0]}-${min[1]}-${min[2]}`
+        let maxDate = `${max[0]}-${max[1]}-${max[2]}`
+        setStartFromTo([minDate, maxDate]);
+        console.log(startFromTo);
         getHotels();
     }, [])
 
     return (
         <>
         <div>
+            <div>
+                <div>
+                <input type="text" name="hotelN" onChange={changeSearchFilters} placeholder="Name of Hotel" />
+                <input type="button" value="Search with name"/>
+                </div>
+                <div>
+                <input type="date" name="checkinT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
+                <input type="date" name="checkoutT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
+                <input type="button" value="Search with dates available"/>
+                </div>
+                
+            </div>
             {
                 hotels !== null ? hotels.map((ele, idx) => (
                     <div key={idx}>
 
                         <div>{ele.hotelName}</div>
                         <div>{ele.bookingPrice}</div>
-                        <input type="button" value="Book" onClick={() => setOpenModal(true)} />
+                        <input type="button" value="Book"  name={ele._id} onClick={bookTheHotel} />
                     </div>
                 )) :
-                    <div></div>
+                    <div> No Hotels Found</div>
             }
             </div>
-            <Modal isOpen={openModal} style={customStyles}>
-                <label>Checkin</label>
-                <input type="date" pattern="dd/mm/yyyy" min="2023-01-28" /> <br />
-                <label>Checkout</label>
-                <input type="date" pattern="dd/mm/yyyy" /><br />
-                <input type="button" value="Confirm Dates" /><br />
-                <input type="button" value="Close" onClick={() => setOpenModal(false)} />
-            </Modal>
         </>
     )
 } 

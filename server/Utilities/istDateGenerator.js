@@ -13,8 +13,8 @@ function datesGenerator(checkinNumber, checkoutNumber) {
         let xdate = new Date(aDate).getDate();
 
         // add 0 to make 2 digits month and date
-        if(xmonth < 10) xmonth = "0" + xmonth;
-        if(xdate < 10) xdate = "0" + xdate;
+        xmonth < 10 ? xmonth = "0" + xmonth : xmonth = "" + xmonth;
+        xdate < 10 ? xdate = "0" + xdate : xdate = "" + xdate;
 
         dateArray.push(`${xyear}-${xmonth}-${xdate}`);
         counterNumber += twentyFourHours;

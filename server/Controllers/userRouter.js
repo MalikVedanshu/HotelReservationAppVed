@@ -94,7 +94,7 @@ router.post("/forgetpassword", forgetpassAuthentication(),errorMiddleware, async
             emailSubject: `Reset Password. Hotel Bookings.`,
             emailBody: `
             <div>
-                <h1> Hello ${user.fullname}, Thank you for registering with us. </h1>
+                <h1> Hello ${user.fullname}, </h1>
                 <div> Please <a href="${config.get('myIP')}:3000/resetpassword/${jwtToken}"> click here </a> reset your password. </div>
             </div>
             `
@@ -107,7 +107,7 @@ router.post("/forgetpassword", forgetpassAuthentication(),errorMiddleware, async
     }
 })
 
-router.post("/resetpassword/:jwtkn",resetpassValidation(),errorMiddleware, async (req,res) => {
+router.post("/resetpass/:jwtkn",resetpassValidation(),errorMiddleware, async (req,res) => {
     try {
         let jwtkn = req.params.jwtkn;
         let password = req.body.password;

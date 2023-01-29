@@ -1,0 +1,13 @@
+
+.navContainer{
+    display: flex;
+    flex-direction: row;
+}
+.navElement {
+    cursor: pointer;
+    padding: 3px;
+    margin: 3px;
+    background-color: black;
+    color: white;
+    border-radius: 7px;
+}

@@ -33,20 +33,20 @@ export default function Dashboard() {
     const navigateToHotel = (e) => {
         navigate(`/viewhotel/${e.target.name}`)
     }
-
+    /*eslint-disable */
     useEffect(() => {
 
         getMyBookings();
     }, [])
-
+    /*eslint-enable */
     return (
         <>
             <div className="dashboardContainer">
                 <div>
-                <Navbar />
-                <h1>Dashboard</h1>
-                <div style={{ color: "red" }}>{bookingsError}</div>
-                <h3>My Bookings </h3>
+                    <Navbar />
+                    <h1>Dashboard</h1>
+                    <div style={{ color: "red" }}>{bookingsError}</div>
+                    <h3>My Bookings </h3>
                 </div>
                 <div className="bookingsContainer">
                     {userData !== null ? userData.map((ele, idx) => (

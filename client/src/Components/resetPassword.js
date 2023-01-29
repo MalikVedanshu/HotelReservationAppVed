@@ -1,11 +1,11 @@
-import React,{useEffect, useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate,useLocation  } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Resetpassword() {
     const navigate = useNavigate()
     const location = useLocation();
-    
+
     const [passwordsState, setPasswordsState] = useState({
         password: "",
         confirmPassword: ""
@@ -16,10 +16,10 @@ export default function Resetpassword() {
 
     const onPasswordInput = (eve) => {
         setPasswordsState({
-            ...passwordsState, [eve.target.name] : eve.target.value
+            ...passwordsState, [eve.target.name]: eve.target.value
         })
     }
-    
+
 
     const submitPassword = async () => {
         try {
@@ -28,14 +28,14 @@ export default function Resetpassword() {
             setResetPassInfo(res.data.msg)
             setTimeout(() => {
                 navigate("/login")
-            },3000)
+            }, 3000)
         }
-        catch(error) {
+        catch (error) {
             console.log(error.response.data);
-            (typeof error.response.data.error === "string" ) ? setResetPassError(error.response.data.error) : setResetPassError(error.response.data.error[0].msg)
+            (typeof error.response.data.error === "string") ? setResetPassError(error.response.data.error) : setResetPassError(error.response.data.error[0].msg)
             setTimeout(() => {
                 setResetPassError(null);
-            },2000)
+            }, 2000)
         }
     }
 

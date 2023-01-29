@@ -11,6 +11,14 @@ import authenticatelogin from '../Middlewares/authentication.js';
 
 const router = express.Router();
 
+/*
+    API Endpoint : /hotelapi/user/register
+    Method : post
+    Access type : Public
+    Validations : registerValidation
+    Description : takes input or name email password, checks if details are valid, sends data to server and a email to use for verification.
+*/
+
 router.post("/register",registerValidation(), errorMiddleware, async (req, res) => {
     try {
         let {fullname, email, password} = req.body;
@@ -44,11 +52,18 @@ router.post("/register",registerValidation(), errorMiddleware, async (req, res) 
         return res.status(200).json({msg: "Registeration successfull, Please click on the link sent on your registered email."})
     }
     catch(error) {
-        console.log(error);
+       
         return res.status(500).json({error: "Internal Server error"})
     }
 })
 
+/*
+    API Endpoint : /verify/*
+    Method : get
+    Access type : public
+    Validations : verify valid token(jwt)
+    Description : This route takes Token as parameters sent on mail, if token is valid, it saves verified = true in the database. 
+*/
 
 router.get("/verify/:vtkn", async (req,res) => {
     try {
@@ -70,10 +85,18 @@ router.get("/verify/:vtkn", async (req,res) => {
         return res.status(200).json({msg: "Your account is verified."})
     }
     catch (error) {
-        console.log(error);
+        
         return res.status(500).json({error: "Internal Server error"})
     }
 })
+
+/*
+    API Endpoint : /hotelapi/user/forgetpassword
+    Method : post
+    Access type : public
+    Validations : valid email
+    Description : User can get a jwt encoded token on the email by sending request to reset password
+*/
 
 
 router.post("/forgetpassword", forgetpassAuthentication(),errorMiddleware, async (req,res) => {
@@ -102,10 +125,18 @@ router.post("/forgetpassword", forgetpassAuthentication(),errorMiddleware, async
         return res.status(200).json({msg: "An email has been sent on your registered account. Please click on the link in the email and reset your password"})
     }
     catch(error) {
-        console.log(error);
+        
         return res.status(500).json({error: "Internal Server error"})
     }
 })
+
+/*
+    API Endpoint : /hotelapi/user/resetpass/*
+    Method : post
+    Access type : Public
+    Validations : valid password, valid confirm password, valid token
+    Description : token sent on the mail as req.params gets verified and new password is updated in the database
+*/
 
 router.post("/resetpass/:jwtkn",resetpassValidation(),errorMiddleware, async (req,res) => {
     try {
@@ -128,11 +159,18 @@ router.post("/resetpass/:jwtkn",resetpassValidation(),errorMiddleware, async (re
 
     }
     catch(error) {
-        console.log(error);
         return res.status(500).json({error: "Internal Server error"})
     }
 })
 
+
+/*
+    API Endpoint : /hotelapi/user/login
+    Method : Post
+    Access type : Public 
+    Validations : NA
+    Description : It verified the email and hashed password in the database and sends a encrypted token as a response for further authentications
+*/
 
 
 router.post("/login", async (req,res) => {
@@ -154,10 +192,11 @@ router.post("/login", async (req,res) => {
         return res.status(200).json({token: encryptedJwtToken})
     }
     catch(error) {
-        console.log(error.response);
         return res.status(500).json({error: "Internal Server error"})
     }
 })
+
+// testing ignore
 
 router.get("/verifyme", authenticatelogin, async (req, res) => {
     try {
@@ -168,7 +207,7 @@ router.get("/verifyme", authenticatelogin, async (req, res) => {
         return res.status(200).json({msg: "You are autherised"})
     }
     catch (error) {
-        console.log(error.response);
+
         return res.status(500).json({error: "Internal Server error"})
     }
 })

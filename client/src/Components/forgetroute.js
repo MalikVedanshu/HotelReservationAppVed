@@ -46,7 +46,7 @@ export default function Forgetroute() {
                         <div></div>
                         <input type="button" onClick={submitEmail} value="Reset" />
                     </div>
-                    
+
                 </div>
                 <center>
                     <p> New user ? <Link style={{ textDecoration: "none", color: "rgba(19, 184, 221, 0.857)" }} to='/register' >Register </Link> </p>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import hotepic from '../../Files/Pictures/hotelpic.jpg';
+// import hotel from '../../Files/Pictures/hotelpic.jpg';
 import Navbar from "../navbar";
 import Modal from 'react-modal';
 
@@ -37,7 +37,7 @@ export default function Viewhotel() {
     const triggerBookingsDate = (eve) => {
         setBookingsData({
             ...bookingsData, [eve.target.name]: eve.target.value
-        }) 
+        })
     }
 
     async function renderMyHotel() {
@@ -70,7 +70,7 @@ export default function Viewhotel() {
             setOpenModal(false);
             setTimeout(() => {
                 setBookingsInfo(null);
-            },3000)
+            }, 3000)
         }
         catch (error) {
             console.log(error.response.data);
@@ -80,21 +80,24 @@ export default function Viewhotel() {
             }, 2000)
         }
     }
+    /*eslint-disable */
     useEffect(() => {
         renderMyHotel();
     }, [])
+    /*eslint-enable */
     return (
         <>
-        <Navbar />
-            
-            <div style={{color: "red"}}>{bookingsError}</div>
-            <div style={{color: "green"}}>{bookingsInfo}</div>
+            <Navbar />
+
+            <div style={{ color: "red" }}>{bookingsError}</div>
+            <div style={{ color: "green" }}>{bookingsInfo}</div>
             {
+
                 hotelData !== null ?
                     <div className="hotelDataContainer">
                         <h1 className="hotelName">{hotelData.hotelName.split("_").join(" ")} </h1>
                         <h2>Price : {hotelData.bookingPrice} Rupees </h2>
-                        <img src={hotepic} alt="ahotel" style={{ width: "400px", height: "auto" }}></img> <br />
+                        <img src={require(`../../Files/Pictures/hotelPictures/hotel${Math.round(10 * Math.random())}.jpg`)} alt="ahotel" style={{ width: "auto", height: "400px" }}></img> <br />
                         <input type="button" value="Book" onClick={() => setOpenModal(true)} /> <br />
                         <input type="button" value="View booking history" onClick={() => setOpenHistoryModal(true)} />
                     </div> : <div></div>
@@ -109,12 +112,12 @@ export default function Viewhotel() {
 
                 <div> This Hotel is booked for following dates.</div>
                 {
-                    hisrotyModalData !== null ?  hisrotyModalData.length > 0 ? hisrotyModalData.map(ele => (
-                    <div>
-                        {ele.split("-").join(".")}
-                    </div>
+                    hisrotyModalData !== null ? hisrotyModalData.length > 0 ? hisrotyModalData.map((ele, idxx) => (
+                        <div key={idxx}>
+                            {ele.split("-").join(".")}
+                        </div>
                     ))
-                     : <div>None </div> : <div></div>
+                        : <div>None </div> : <div></div>
                 }
                 <input type="button" value="Close" onClick={() => setOpenHistoryModal(false)} />
             </Modal>

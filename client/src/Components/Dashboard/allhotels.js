@@ -72,7 +72,7 @@ export default function Allhotels() {
     const bookTheHotel = (eve) => {
         navigate(`/viewhotel/${eve.target.name}`)
     }
-
+    /* eslint-disable */
     useEffect(() => {
 
         const min = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
@@ -94,39 +94,40 @@ export default function Allhotels() {
         console.log(startFromTo);
         getHotels();
     }, [])
+    /* eslint-enable */
 
     return (
         <>
-            
+
             <div>
                 <center>
-                <Navbar />
-                <div>
+                    <Navbar />
                     <div>
-                        <input type="text" name="hotelN" onChange={changeSearchFilters} placeholder="Name of Hotel" />
-                        <input type="button" value="Search with name" onClick={appyNameFilter} />
-                    </div>
-                    <div>
-                        <input type="date" name="checkinT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
-                        <input type="date" name="checkoutT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
-                        <input type="button" value="Search with dates available" onClick={applyDateFilter} />
-                    </div>
+                        <div>
+                            <input type="text" name="hotelN" onChange={changeSearchFilters} placeholder="Name of Hotel" />
+                            <input type="button" value="Search with name" onClick={appyNameFilter} />
+                        </div>
+                        <div>
+                            <input type="date" name="checkinT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
+                            <input type="date" name="checkoutT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
+                            <input type="button" value="Search with dates available" onClick={applyDateFilter} />
+                        </div>
 
-                </div>
+                    </div>
                 </center>
                 <h3>{hotelPageError} </h3>
                 <div className="allHotelContainer">
-                {
-                    hotels !== null ? hotels.map((ele, idx) => (
-                        <div key={idx} className="allHotelData">
+                    {
+                        hotels !== null ? hotels.map((ele, idx) => (
+                            <div key={idx} className="allHotelData">
 
-                            <div>{ele.hotelName}</div>
-                            <div>Price <span className="writtenPrice">{ele.bookingPrice}&#8377; </span></div>    
-                            <input type="button" value="Book" name={ele._id} onClick={bookTheHotel} />
-                        </div>
-                    )) :
-                        <div> No Hotels Found</div>
-                }
+                                <div>{ele.hotelName}</div>
+                                <div>Price <span className="writtenPrice">{ele.bookingPrice}&#8377; </span></div>
+                                <input type="button" value="Book" name={ele._id} onClick={bookTheHotel} />
+                            </div>
+                        )) :
+                            <div> No Hotels Found</div>
+                    }
                 </div>
             </div>
         </>

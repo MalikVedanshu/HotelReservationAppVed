@@ -8,6 +8,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    font-family: freedomcustom;
     
 }
 .hundredHeightContainer{
@@ -95,6 +96,7 @@ p{
 }
 .bookingsContainer {
     display: flex;
+    flex-wrap: wrap;
    
 }
 .bookingsContainer div{
@@ -169,4 +171,39 @@ input[type=date] {
     background-color: black;
     border-radius: 7px;
     padding: 4px;
+}
+.hoteViewContainer{
+    font-family: freedomcustom;
+    height: 100vh;
+    width: 100%;
+    padding: 10px 10px;
+}
+.filterBar{
+    border-radius: 7px;
+    padding: 7px 7px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(172, 172, 128);
+}
+.filterRow {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding: 3px 3px;
+    background-color: rgb(215, 215, 172);
+    margin: 2px 2px;
+    border-radius: 6px;
+}
+.filterRow input {
+    margin: 2px;
+}
+.bookModal{
+    display: grid;
+    grid-template-rows: 50% 50%;
+}
+.infoAfterApiCall{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

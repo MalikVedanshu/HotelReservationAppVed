@@ -2,7 +2,7 @@ import { body, validationResult } from 'express-validator';
 
 function registerValidation() {
     return [
-        body("fullname", "Please enter a valid fullname between 3 to 20 characters").isString().isLength({ minLength: 3, maxLength: 20 }),
+        body("fullname", "Please enter a valid fullname between 3 to 20 characters").isString().notEmpty(),
         body("email", "Please enter a valid email").isEmail().notEmpty(),
         body("password", "Please enter a strong password").isStrongPassword({ minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1 }),
         body("confirmPassword").custom((value, { req }) => {

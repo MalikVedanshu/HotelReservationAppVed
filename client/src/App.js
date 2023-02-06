@@ -15,15 +15,14 @@ function App() {
     <>
       <Routes>
         
-        <Route path='/login' element={<Customerlogin />} />
-        <Route path='/register' element={<Customerregister />} />
-        <Route path='forgetpassword' element={<Forgetroute />} />
-        <Route path='resetpassword/*' element={<Resetpassword />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path="/viewhotel/*" element={<Viewhotel />} />
-        <Route path='/hotels' element= {<Allhotels />} />
-        <Route path='/*' element={<Dashboard />} />
-        {/* <Route path='/bookings' element= {<Mybookings />} /> */}
+        <Route path='/login' element={<Customerlogin />} /> {/* ./Components/login  */}
+        <Route path='/register' element={<Customerregister />} /> {/* ./Components/register */}
+        <Route path='forgetpassword' element={<Forgetroute />} /> {/* /Components/forgetroute.js */}
+        <Route path='resetpassword/*' element={<Resetpassword />} /> {/* filepath:  /Components/resetPassword.js */}
+        <Route path='/dashboard' element={<Dashboard />} /> {/* filepath: /Components/dashboard.js  */}
+        <Route path="/viewhotel/*" element={<Viewhotel />} /> {/* filepath : /Components/Dashboard/viewHotel.js  */}
+        <Route path='/hotels' element= {<Allhotels />} /> {/* file path : /Components/Dashboard/allhotels.js */}
+        <Route path='/*' element={<Dashboard />} />  {/* Anything except above will direct to /dashboard */}
       </Routes>
     </>
   );

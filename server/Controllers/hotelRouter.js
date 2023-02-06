@@ -30,11 +30,12 @@ router.post("/manuallyAddHotels", async (req, res) => {
 
         let myHotel = new Hotelmodel({ hotelName: fixName, bookingPrice: bookingPrice });
         await myHotel.save();
-
+        console.log(myHotel);
         return res.status(200).json({ msg: "Hotel successfully added" });
 
     }
     catch (error) {
+        console.log(error);
         return res.status(500).json({ error: "Internal Server Error" })
     }
 })

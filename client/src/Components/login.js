@@ -5,17 +5,29 @@ import axios from "axios";
 export default function Customerlogin() {
     const navigate = useNavigate()
 
+    /* 
+    login state
+    */
     const [loginInputs, setLoginInputs] = useState({
         email: "",
         password: ""
     })
-    const [loginError, setLoginError] = useState(null);
+    const [loginError, setLoginError] = useState(null); // error state from api calls
 
+    /* 
+        loginInputs state change whenever we input our credential
+    */
     const loginValChange = (eve) => {
         setLoginInputs({
             ...loginInputs, [eve.target.name]: eve.target.value
         })
     }
+
+    /* 
+        after we submit our login credentials, 
+        if success : saves htoken in localhost recieved from server and navigates to /dashboard
+        if fail : shows error message for 2 seconds and stays on login page
+    */
     const submitLogin = async () => {
         try {
             let res = await axios.post("/hotelapi/user/login", loginInputs);

@@ -7,7 +7,6 @@ import Navbar from "../navbar";
 export default function Allhotels() {
     const navigate = useNavigate();
 
-
     const [hotels, setHotels] = useState(null);
     const [hotelPageError, setHotelPageError] = useState(null);
 
@@ -18,11 +17,20 @@ export default function Allhotels() {
         checkoutT: ""
     })
 
+    /*
+        a. change filters state by setFilters
+    */
+
     const changeSearchFilters = (eve) => {
         setFilters({
             ...filters, [eve.target.name]: eve.target.value
         })
     }
+
+    /*
+        if you click Search Name
+         
+    */
 
     const appyNameFilter = async () => {
         try {
@@ -40,6 +48,9 @@ export default function Allhotels() {
         }
 
     }
+    /*
+        if you click on search Date
+    */
 
     const applyDateFilter = async () => {
         try {
@@ -58,7 +69,9 @@ export default function Allhotels() {
     }
 
 
-
+/*
+    everytime the page loads, this async function will display all hotels and their price in the state, 
+*/
 
 
     async function getHotels() {
@@ -74,9 +87,20 @@ export default function Allhotels() {
             }, 2000)
         }
     }
+
+    /*
+        All Book Now button contains IDs of hotels as names
+        if we click on Book Now button we will navigate to /viewhote/:hotelId
+    */
     const bookTheHotel = (eve) => {
         navigate(`/viewhotel/${eve.target.name}`)
     }
+    /*
+        for the user, we are checking current dates, 
+        we are finding future dates and backdates accordingly to lock them for selection accordingly.
+    */
+
+
     /* eslint-disable */
     useEffect(() => {
 
@@ -104,18 +128,19 @@ export default function Allhotels() {
     return (
         <>
 
-            <div>
+            <div className="hoteViewContainer">
                 <center>
                     <Navbar />
-                    <div>
-                        <div>
-                            <input type="text" name="hotelN" onChange={changeSearchFilters} placeholder="Name of Hotel" />
-                            <input type="button" value="Search with name" onClick={appyNameFilter} />
+                    <div className="filterBar">
+                        <h3>Filter with </h3>
+                        <div className="filterRow">
+                            <input type="text" name="hotelN" onChange={changeSearchFilters} placeholder="Hotel Name" />
+                            <input type="button" value="Search Name" onClick={appyNameFilter} />
                         </div>
-                        <div>
+                        <div className="filterRow">
                             <input type="date" name="checkinT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
                             <input type="date" name="checkoutT" onChange={changeSearchFilters} pattern="yyyy/mm/dd" min={startFromTo[0]} max={startFromTo[1]} />
-                            <input type="button" value="Search with dates available" onClick={applyDateFilter} />
+                            <input type="button" value="Search Available" onClick={applyDateFilter} />
                         </div>
 
                     </div>
@@ -128,7 +153,7 @@ export default function Allhotels() {
 
                                 <div>{ele.hotelName}</div>
                                 <div>Price <span className="writtenPrice">{ele.bookingPrice}&#8377; </span></div>
-                                <input type="button" value="Book" name={ele._id} onClick={bookTheHotel} />
+                                <input type="button" value="Book Now" name={ele._id} onClick={bookTheHotel} />
                             </div>
                         )) :
                             <div> No Hotels Found</div>

@@ -1,0 +1,14 @@
+{  
+    "myIP": "http://....",
+    "dbConnectUrl": "mongodb+srv://....",
+    "emailkeys": {
+        "host": "...",
+        "auth": {
+            "user": "...",    
+            "pass": "..."
+        },
+        "port": "Number 465 or accordingly"
+    },
+    "jwt_secret_key": "jwtSecretKey",
+    "crypt_secret_key": "cryptoSecretKey"
+}
